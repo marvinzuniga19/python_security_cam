@@ -12,9 +12,9 @@ VIDEO_FOURCC = cv2.VideoWriter_fourcc(*"mp4v")
 
 # Clasificadores
 face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-body_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + "haarcascade_fullbody.xml")
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
+body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_fullbody.xml")
 
 
 def get_video_capture():
@@ -22,12 +22,16 @@ def get_video_capture():
 
 
 def detect_faces_and_bodies(gray_frame):
-    return face_cascade.detectMultiScale(gray_frame, 1.3, 5), body_cascade.detectMultiScale(gray_frame, 1.3, 5)
+    return face_cascade.detectMultiScale(
+        gray_frame, 1.3, 5
+    ), body_cascade.detectMultiScale(gray_frame, 1.3, 5)
 
 
 def start_recording(current_time):
     global out
-    out = cv2.VideoWriter(f"{current_time}.mp4", VIDEO_FOURCC, 20, (FRAME_WIDTH, FRAME_HEIGHT))
+    out = cv2.VideoWriter(
+        f"{current_time}.mp4", VIDEO_FOURCC, 20, (FRAME_WIDTH, FRAME_HEIGHT)
+    )
     print("¡Grabación iniciada!")
 
 
@@ -70,7 +74,10 @@ def main():
                 start_recording(current_time)
         elif detection:
             if timer_started:
-                if time.time() - detection_stopped_time >= SECONDS_TO_RECORD_AFTER_DETECTION:
+                if (
+                    time.time() - detection_stopped_time
+                    >= SECONDS_TO_RECORD_AFTER_DETECTION
+                ):
                     detection = False
                     timer_started = False
                     stop_recording()
